@@ -1,6 +1,10 @@
 import React from "react";
 import type { HelpdeskRequest, Site, SortDirection, SortField } from "../types";
-import { formatSiteDateTime, formatSiteDueDate, isRequestOverdue } from "../lib/dates";
+import {
+  formatSiteDateTime,
+  formatSiteDueDate,
+  isRequestOverdue,
+} from "../lib/dates";
 import { StatusBadge } from "./StatusBadge";
 import { PriorityBadge } from "./PriorityBadge";
 import { OverdueBadge } from "./OverdueBadge";
@@ -50,11 +54,14 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
   if (!loading && requests.length === 0) {
     return (
       <div className="empty-state" role="region" aria-label="No requests found">
-        <div className="empty-state-icon" aria-hidden="true">📋</div>
+        <div className="empty-state-icon" aria-hidden="true">
+          📋
+        </div>
         <h3>No requests match your criteria</h3>
         <p>
-          There are no active requests in this date range matching the selected filters.
-          Try widening your date range or changing your site/status filters.
+          There are no active requests in this date range matching the selected
+          filters. Try widening your date range or changing your site/status
+          filters.
         </p>
       </div>
     );
@@ -64,16 +71,29 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
     <div className="table-wrapper">
       <table className="requests-table" aria-label="Helpdesk Requests">
         <caption className="sr-only">
-          List of tenant helpdesk requests with site, priority, status, assignee, and due date.
+          List of tenant helpdesk requests with site, priority, status,
+          assignee, and due date.
         </caption>
         <thead>
           <tr>
-            <th scope="col" className="col-ref">Ref</th>
-            <th scope="col" className="col-site">Site</th>
-            <th scope="col" className="col-title">Title</th>
-            <th scope="col" className="col-priority">Priority</th>
-            <th scope="col" className="col-status">Status</th>
-            <th scope="col" className="col-assignee">Assignee</th>
+            <th scope="col" className="col-ref">
+              Ref
+            </th>
+            <th scope="col" className="col-site">
+              Site
+            </th>
+            <th scope="col" className="col-title">
+              Title
+            </th>
+            <th scope="col" className="col-priority">
+              Priority
+            </th>
+            <th scope="col" className="col-status">
+              Status
+            </th>
+            <th scope="col" className="col-assignee">
+              Assignee
+            </th>
             <th
               scope="col"
               className="col-due sortable-header"
@@ -102,7 +122,9 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                 Created{getSortIcon("created_at")}
               </button>
             </th>
-            <th scope="col" className="col-overdue text-center">Alerts</th>
+            <th scope="col" className="col-overdue text-center">
+              Alerts
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -114,7 +136,7 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
 
             // Rule 3: Look people up by id in /v1/staff. Never display req.assignee.name directly!
             const assigneeName = req.assignee?.id
-              ? staffMap.get(req.assignee.id) ?? `Staff #${req.assignee.id}`
+              ? (staffMap.get(req.assignee.id) ?? `Staff #${req.assignee.id}`)
               : "Unassigned";
 
             return (
@@ -137,7 +159,10 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                   <span className="ref-badge">{req.ref}</span>
                 </td>
                 <td className="col-site">
-                  <span className="site-name" title={site?.name ?? `Site ${req.site_id}`}>
+                  <span
+                    className="site-name"
+                    title={site?.name ?? `Site ${req.site_id}`}
+                  >
                     {site?.name ?? `Site ${req.site_id}`}
                   </span>
                   <span className="site-tz-tag">{siteTimezone}</span>
@@ -157,7 +182,9 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                   <StatusBadge status={req.status} />
                 </td>
                 <td className="col-assignee">
-                  <span className={req.assignee?.id ? "staff-name" : "unassigned"}>
+                  <span
+                    className={req.assignee?.id ? "staff-name" : "unassigned"}
+                  >
                     {assigneeName}
                   </span>
                 </td>
@@ -172,7 +199,11 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                   </span>
                 </td>
                 <td className="col-overdue text-center">
-                  {overdue ? <OverdueBadge /> : <span className="muted">—</span>}
+                  {overdue ? (
+                    <OverdueBadge />
+                  ) : (
+                    <span className="muted">—</span>
+                  )}
                 </td>
               </tr>
             );

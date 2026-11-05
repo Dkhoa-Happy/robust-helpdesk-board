@@ -23,12 +23,22 @@ export function parseUrlFilters(search: string): {
   const to = params.get("to") || defaults.to;
 
   const rawSite = params.get("site");
-  const siteId = rawSite && rawSite !== "all" && !isNaN(Number(rawSite)) ? Number(rawSite) : "all";
+  const siteId =
+    rawSite && rawSite !== "all" && !isNaN(Number(rawSite))
+      ? Number(rawSite)
+      : "all";
 
   const rawStatus = params.get("status");
-  const validStatuses: Status[] = ["pending", "processing", "complete", "canceled"];
+  const validStatuses: Status[] = [
+    "pending",
+    "processing",
+    "complete",
+    "canceled",
+  ];
   const status: Status | "all" =
-    rawStatus && (validStatuses as string[]).includes(rawStatus) ? (rawStatus as Status) : "all";
+    rawStatus && (validStatuses as string[]).includes(rawStatus)
+      ? (rawStatus as Status)
+      : "all";
 
   const rawSort = params.get("sort");
   const sortField: SortField = rawSort === "due_on" ? "due_on" : "created_at";
@@ -37,7 +47,8 @@ export function parseUrlFilters(search: string): {
   const sortDirection: SortDirection = rawDir === "asc" ? "asc" : "desc";
 
   const rawReqId = params.get("request");
-  const selectedRequestId = rawReqId && !isNaN(Number(rawReqId)) ? Number(rawReqId) : null;
+  const selectedRequestId =
+    rawReqId && !isNaN(Number(rawReqId)) ? Number(rawReqId) : null;
 
   return {
     filters: {
@@ -54,7 +65,7 @@ export function parseUrlFilters(search: string): {
 
 export function serializeFiltersToQuery(
   filters: BoardFilters,
-  selectedRequestId: number | null = null
+  selectedRequestId: number | null = null,
 ): string {
   const params = new URLSearchParams();
   const defaults = getDefaultFilters();
@@ -63,9 +74,12 @@ export function serializeFiltersToQuery(
   if (filters.to !== defaults.to) params.set("to", filters.to);
   if (filters.siteId !== "all") params.set("site", String(filters.siteId));
   if (filters.status !== "all") params.set("status", filters.status);
-  if (filters.sortField !== defaults.sortField) params.set("sort", filters.sortField);
-  if (filters.sortDirection !== defaults.sortDirection) params.set("dir", filters.sortDirection);
-  if (selectedRequestId !== null) params.set("request", String(selectedRequestId));
+  if (filters.sortField !== defaults.sortField)
+    params.set("sort", filters.sortField);
+  if (filters.sortDirection !== defaults.sortDirection)
+    params.set("dir", filters.sortDirection);
+  if (selectedRequestId !== null)
+    params.set("request", String(selectedRequestId));
 
   const str = params.toString();
   return str ? `?${str}` : "";

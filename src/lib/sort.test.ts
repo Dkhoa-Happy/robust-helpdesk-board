@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { sortRequests } from "./sort";
 import type { HelpdeskRequest } from "../types";
 
-const makeItem = (id: number, created_at: string, due_on: string | null): HelpdeskRequest => ({
+const makeItem = (
+  id: number,
+  created_at: string,
+  due_on: string | null,
+): HelpdeskRequest => ({
   id,
   ref: `WO-${id}`,
   title: `Item ${id}`,

@@ -38,7 +38,7 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
 
   // Rule 3: Look people up by id in /v1/staff
   const currentAssigneeName = request.assignee?.id
-    ? staffMap.get(request.assignee.id) ?? `Staff #${request.assignee.id}`
+    ? (staffMap.get(request.assignee.id) ?? `Staff #${request.assignee.id}`)
     : "Unassigned";
 
   // Fetch full event history on mount
@@ -58,7 +58,9 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
       })
       .catch((err: unknown) => {
         if (active) {
-          setEventsError(err instanceof Error ? err.message : "Failed to load events");
+          setEventsError(
+            err instanceof Error ? err.message : "Failed to load events",
+          );
         }
       })
       .finally(() => {
@@ -88,11 +90,15 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
   // Rule 6: First response
   const firstResponse = findFirstResponse(events);
   const firstResponseStaffName = firstResponse?.actor_id
-    ? staffMap.get(firstResponse.actor_id) ?? `Staff #${firstResponse.actor_id}`
+    ? (staffMap.get(firstResponse.actor_id) ??
+      `Staff #${firstResponse.actor_id}`)
     : null;
 
   // Rule 5: Undone events filtering
-  const { visibleEvents, revertedIds, revertingIds } = filterEvents(events, showUndone);
+  const { visibleEvents, revertedIds, revertingIds } = filterEvents(
+    events,
+    showUndone,
+  );
   const undoneCount = revertedIds.size;
 
   return (
@@ -136,9 +142,15 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
         {/* Modal Content */}
         <div className="modal-body">
           {/* Rule 6: First Response Banner */}
-          <div className="first-response-card" role="region" aria-label="First response summary">
+          <div
+            className="first-response-card"
+            role="region"
+            aria-label="First response summary"
+          >
             <div className="first-response-header">
-              <span className="first-response-icon" aria-hidden="true">⏱️</span>
+              <span className="first-response-icon" aria-hidden="true">
+                ⏱️
+              </span>
               <h3 className="first-response-title">First Response</h3>
             </div>
             {loadingEvents ? (
@@ -146,13 +158,18 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
             ) : firstResponse && firstResponseStaffName ? (
               <div className="first-response-details">
                 <p>
-                  First responded by <strong>{firstResponseStaffName}</strong> on{" "}
-                  <strong>{formatSiteDateTime(firstResponse.at, siteTimezone)}</strong>.
+                  First responded by <strong>{firstResponseStaffName}</strong>{" "}
+                  on{" "}
+                  <strong>
+                    {formatSiteDateTime(firstResponse.at, siteTimezone)}
+                  </strong>
+                  .
                 </p>
               </div>
             ) : (
               <p className="text-secondary">
-                No staff response recorded yet (request has not entered processing with an assigned actor).
+                No staff response recorded yet (request has not entered
+                processing with an assigned actor).
               </p>
             )}
           </div>
@@ -161,7 +178,9 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
           <div className="details-grid">
             <div className="detail-item">
               <span className="detail-label">Site</span>
-              <span className="detail-value">{site?.name ?? `Site ${request.site_id}`}</span>
+              <span className="detail-value">
+                {site?.name ?? `Site ${request.site_id}`}
+              </span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Location</span>
@@ -181,7 +200,9 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
             </div>
             <div className="detail-item">
               <span className="detail-label">Current Assignee</span>
-              <span className="detail-value staff-name">{currentAssigneeName}</span>
+              <span className="detail-value staff-name">
+                {currentAssigneeName}
+              </span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Due Date</span>
@@ -204,7 +225,11 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
           </div>
 
           {/* Event History / Timeline */}
-          <div className="timeline-section" role="region" aria-label="Event history timeline">
+          <div
+            className="timeline-section"
+            role="region"
+            aria-label="Event history timeline"
+          >
             <div className="timeline-header">
               <div className="timeline-title-row">
                 <h3 className="timeline-title">
@@ -260,7 +285,9 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
             )}
 
             {!loadingEvents && visibleEvents.length === 0 && (
-              <p className="timeline-empty">No events found for this request.</p>
+              <p className="timeline-empty">
+                No events found for this request.
+              </p>
             )}
 
             {!loadingEvents && visibleEvents.length > 0 && (
@@ -274,7 +301,7 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
                   // Automatic events have actor_id: null and actor_name: "System".
                   const actorDisplay =
                     ev.actor_id !== null
-                      ? staffMap.get(ev.actor_id) ?? `Staff #${ev.actor_id}`
+                      ? (staffMap.get(ev.actor_id) ?? `Staff #${ev.actor_id}`)
                       : "System";
 
                   return (
@@ -286,7 +313,9 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
                       <div className="timeline-content">
                         <div className="timeline-item-header">
                           <div className="timeline-actor-row">
-                            <span className="timeline-actor">{actorDisplay}</span>
+                            <span className="timeline-actor">
+                              {actorDisplay}
+                            </span>
                             <StatusBadge status={ev.status} />
                             {isReverted && (
                               <span className="badge-undone">Undone</span>
@@ -312,16 +341,22 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
                         {/* Rule 4: due_at on an event is site-local wall-clock time */}
                         {ev.due_at && (
                           <div className="timeline-due">
-                            <span className="due-icon" aria-hidden="true">📅</span>
+                            <span className="due-icon" aria-hidden="true">
+                              📅
+                            </span>
                             <span>
                               Deadline set to:{" "}
-                              <strong>{formatSiteDateTime(ev.due_at, siteTimezone)}</strong>
+                              <strong>
+                                {formatSiteDateTime(ev.due_at, siteTimezone)}
+                              </strong>
                             </span>
                           </div>
                         )}
 
                         <div className="timeline-footer">
-                          <span className="timeline-event-id">Event #{ev.id}</span>
+                          <span className="timeline-event-id">
+                            Event #{ev.id}
+                          </span>
                         </div>
                       </div>
                     </li>

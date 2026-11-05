@@ -3,7 +3,7 @@ import type { HelpdeskRequest, SortDirection, SortField } from "../types";
 export function sortRequests(
   requests: HelpdeskRequest[],
   sortField: SortField,
-  sortDirection: SortDirection
+  sortDirection: SortDirection,
 ): HelpdeskRequest[] {
   return [...requests].sort((a, b) => {
     let cmp = 0;

@@ -7,7 +7,10 @@ export const OverdueBadge: React.FC = () => {
       title="Overdue: due date has passed in the site's local time"
       aria-label="Overdue"
     >
-      <span className="overdue-icon" aria-hidden="true">⚠️</span> Overdue
+      <span className="overdue-icon" aria-hidden="true">
+        ⚠️
+      </span>{" "}
+      Overdue
     </span>
   );
 };

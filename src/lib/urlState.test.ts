@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getDefaultFilters, parseUrlFilters, serializeFiltersToQuery } from "./urlState";
+import {
+  getDefaultFilters,
+  parseUrlFilters,
+  serializeFiltersToQuery,
+} from "./urlState";
 
 describe("urlState", () => {
   it("defaults to last 30 days and all filters", () => {
@@ -15,7 +19,8 @@ describe("urlState", () => {
   });
 
   it("parses query parameters correctly", () => {
-    const qs = "?from=2026-10-01&to=2026-10-15&site=12&status=pending&sort=due_on&dir=asc&request=65128";
+    const qs =
+      "?from=2026-10-01&to=2026-10-15&site=12&status=pending&sort=due_on&dir=asc&request=65128";
     const { filters, selectedRequestId } = parseUrlFilters(qs);
 
     expect(filters.from).toBe("2026-10-01");
