@@ -15,6 +15,11 @@ export interface Site {
   business_hours: Record<string, { open: string; close: string } | null>;
 }
 
+export interface StatusItem {
+  value: Status;
+  label: string;
+}
+
 export interface HelpdeskRequest {
   id: number;
   ref: string;
@@ -50,4 +55,16 @@ export interface Page<T> {
   total_pages?: number;
   total?: number;
   has_more?: boolean;
+}
+
+export type SortField = "created_at" | "due_on";
+export type SortDirection = "asc" | "desc";
+
+export interface BoardFilters {
+  from: string; // YYYY-MM-DD
+  to: string; // YYYY-MM-DD
+  siteId: number | "all";
+  status: Status | "all";
+  sortField: SortField;
+  sortDirection: SortDirection;
 }
