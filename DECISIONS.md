@@ -9,6 +9,7 @@
 - **Event timeline order**: Events for a request are displayed newest-first with timestamps, actor names, and local timezone indicators.
 - **Polling interval**: The helpdesk changes continuously. We poll every 30 seconds (well within the required 1-minute window) and provide an immediate manual "Refresh" button alongside a real-time relative "Updated Xs ago" indicator.
 - **Pagination (shadcn/ui)**: To prevent endless scrolling and keep rendering fast and focused, we implemented pagination using shadcn/ui components (`Pagination`, `PaginationContent`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`, `PaginationEllipsis`). Page size defaults to 20 with options for 10, 20, 50, and 100. Both `page` and `pageSize` are synchronized in URL search params so shared links preserve the exact view.
+- **DatePicker (shadcn/ui & Lucide React)**: Built a custom shadcn/ui-styled date picker popover (`DatePicker`) with calendar month navigation, accessible keyboard navigation, and `lucide-react` icons (`Calendar`, `ChevronLeft`, `ChevronRight`, `Building2`, `RefreshCw`, `Share2`, `AlertTriangle`, `MapPin`, `ClipboardList`).
 
 ## What I found in the API or data
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Building2, Check, RefreshCw, Share2 } from "lucide-react";
 
 interface HeaderProps {
   lastUpdated: Date | null;
@@ -66,7 +67,9 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="app-header">
       <div className="header-brand">
         <div className="header-title-row">
-          <span className="logo-icon" aria-hidden="true">🏢</span>
+          <div className="logo-badge" aria-hidden="true">
+            <Building2 size={24} className="logo-icon" />
+          </div>
           <div>
             <h1 className="header-title">Helpdesk Board</h1>
             <p className="header-subtitle">
@@ -92,9 +95,11 @@ export const Header: React.FC<HeaderProps> = ({
           disabled={isRefreshing}
           aria-label="Refresh requests now"
         >
-          <span className={`refresh-icon ${isRefreshing ? "spinning" : ""}`} aria-hidden="true">
-            🔄
-          </span>
+          <RefreshCw
+            size={14}
+            className={`refresh-icon ${isRefreshing ? "spinning" : ""}`}
+            aria-hidden="true"
+          />
           Refresh
         </button>
 
@@ -104,11 +109,14 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={handleCopyLink}
           aria-label="Copy shareable link with current filters, range, and sort"
         >
-          <span aria-hidden="true">{copied ? "✓" : "🔗"}</span>
+          {copied ? (
+            <Check size={14} aria-hidden="true" />
+          ) : (
+            <Share2 size={14} aria-hidden="true" />
+          )}
           {copied ? "Link Copied!" : "Share Link"}
         </button>
       </div>
     </header>
   );
 };
-

@@ -62,7 +62,10 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="pagination-container" aria-label="Table navigation and page size">
+    <div
+      className="pagination-container"
+      aria-label="Table navigation and page size"
+    >
       <div className="pagination-info">
         <span>
           Showing <strong>{startItem}</strong>–<strong>{endItem}</strong> of{" "}

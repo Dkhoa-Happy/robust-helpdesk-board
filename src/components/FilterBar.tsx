@@ -1,6 +1,14 @@
 import React from "react";
+import {
+  AlertTriangle,
+  ArrowDown,
+  ArrowUp,
+  Calendar,
+  RotateCcw,
+} from "lucide-react";
 import type { BoardFilters, Site, SortField, Status } from "../types";
 import { daysAgo } from "../lib/dates";
+import { DatePicker } from "./ui/date-picker";
 
 interface FilterBarProps {
   filters: BoardFilters;
@@ -35,10 +43,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
   return (
     <section className="filter-bar" aria-label="Request filters and sorting">
-      {/* Date Range Group */}
+      {/* Date Range Group with Shadcn DatePicker */}
       <div className="filter-group date-range-group">
         <div className="filter-group-header">
           <label className="filter-label" htmlFor="filter-from">
+            <Calendar size={14} className="filter-label-icon" aria-hidden="true" />
             Date Range
           </label>
           <div className="preset-buttons" role="group" aria-label="Date range presets">
@@ -68,24 +77,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <div className="date-inputs">
           <div className="date-input-wrapper">
             <span className="date-sublabel">From</span>
-            <input
+            <DatePicker
               id="filter-from"
-              type="date"
-              className="input date-input"
               value={filters.from}
-              onChange={(e) => onChange({ from: e.target.value })}
-              aria-label="From date (YYYY-MM-DD)"
+              onChange={(date) => onChange({ from: date })}
+              label="From date"
             />
           </div>
           <div className="date-input-wrapper">
             <span className="date-sublabel">To</span>
-            <input
+            <DatePicker
               id="filter-to"
-              type="date"
-              className="input date-input"
               value={filters.to}
-              onChange={(e) => onChange({ to: e.target.value })}
-              aria-label="To date (YYYY-MM-DD)"
+              onChange={(date) => onChange({ to: date })}
+              label="To date"
             />
           </div>
         </div>
@@ -167,7 +172,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               filters.sortDirection === "asc" ? "Ascending" : "Descending"
             }. Click to toggle.`}
           >
-            {filters.sortDirection === "asc" ? "▲ Asc" : "▼ Desc"}
+            {filters.sortDirection === "asc" ? (
+              <>
+                <ArrowUp size={14} aria-hidden="true" /> Asc
+              </>
+            ) : (
+              <>
+                <ArrowDown size={14} aria-hidden="true" /> Desc
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -180,6 +193,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           onClick={onReset}
           title="Reset all filters to default"
         >
+          <RotateCcw size={14} aria-hidden="true" />
           Reset Filters
         </button>
       </div>
@@ -191,7 +205,8 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </span>
         {counts.overdue > 0 && (
           <span className="summary-pill summary-overdue" role="status">
-            ⚠️ <strong>{counts.overdue}</strong> overdue
+            <AlertTriangle size={14} aria-hidden="true" />
+            <strong>{counts.overdue}</strong> overdue
           </span>
         )}
         <span className="summary-pill summary-pending">

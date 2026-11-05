@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  ClipboardList,
+  MapPin,
+} from "lucide-react";
 import type { HelpdeskRequest, Site, SortDirection, SortField } from "../types";
 import {
   formatSiteDateTime,
@@ -37,9 +44,15 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
     return sortDirection === "asc" ? "ascending" : "descending";
   };
 
-  const getSortIcon = (field: SortField) => {
-    if (sortField !== field) return " ↕";
-    return sortDirection === "asc" ? " ▲" : " ▼";
+  const renderSortIcon = (field: SortField) => {
+    if (sortField !== field) {
+      return <ArrowUpDown size={13} className="sort-icon-muted" aria-hidden="true" />;
+    }
+    return sortDirection === "asc" ? (
+      <ArrowUp size={13} className="sort-icon-active" aria-hidden="true" />
+    ) : (
+      <ArrowDown size={13} className="sort-icon-active" aria-hidden="true" />
+    );
   };
 
   if (loading && requests.length === 0) {
@@ -55,7 +68,7 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
     return (
       <div className="empty-state" role="region" aria-label="No requests found">
         <div className="empty-state-icon" aria-hidden="true">
-          📋
+          <ClipboardList size={48} className="empty-icon-svg" />
         </div>
         <h3>No requests match your criteria</h3>
         <p>
@@ -105,7 +118,8 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                 onClick={() => onSortChange("due_on")}
                 aria-label={`Sort by due date, currently sorted ${getSortAria("due_on")}`}
               >
-                Due Date{getSortIcon("due_on")}
+                <span>Due Date</span>
+                {renderSortIcon("due_on")}
               </button>
             </th>
             <th
@@ -119,7 +133,8 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                 onClick={() => onSortChange("created_at")}
                 aria-label={`Sort by created date, currently sorted ${getSortAria("created_at")}`}
               >
-                Created{getSortIcon("created_at")}
+                <span>Created</span>
+                {renderSortIcon("created_at")}
               </button>
             </th>
             <th scope="col" className="col-overdue text-center">
@@ -171,7 +186,8 @@ export const RequestsTable: React.FC<RequestsTableProps> = ({
                   <span className="request-title">{req.title}</span>
                   {req.location && (
                     <span className="request-location" title={req.location}>
-                      📍 {req.location}
+                      <MapPin size={12} className="location-pin-icon" aria-hidden="true" />
+                      {req.location}
                     </span>
                   )}
                 </td>

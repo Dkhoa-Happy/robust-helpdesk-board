@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Calendar, Timer, X } from "lucide-react";
 import type { HelpdeskRequest, RequestEvent, Site } from "../types";
 import { listAllEvents } from "../api";
 import {
@@ -135,7 +136,7 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
             aria-label="Close request details modal"
             ref={closeBtnRef}
           >
-            ✕
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
 
@@ -148,9 +149,7 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
             aria-label="First response summary"
           >
             <div className="first-response-header">
-              <span className="first-response-icon" aria-hidden="true">
-                ⏱️
-              </span>
+              <Timer size={18} className="first-response-icon" aria-hidden="true" />
               <h3 className="first-response-title">First Response</h3>
             </div>
             {loadingEvents ? (
@@ -341,9 +340,7 @@ export const RequestDetailModal: React.FC<RequestDetailModalProps> = ({
                         {/* Rule 4: due_at on an event is site-local wall-clock time */}
                         {ev.due_at && (
                           <div className="timeline-due">
-                            <span className="due-icon" aria-hidden="true">
-                              📅
-                            </span>
+                            <Calendar size={14} className="due-icon" aria-hidden="true" />
                             <span>
                               Deadline set to:{" "}
                               <strong>
