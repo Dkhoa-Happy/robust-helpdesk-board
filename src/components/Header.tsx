@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface HeaderProps {
   lastUpdated: Date | null;
@@ -13,6 +13,21 @@ export const Header: React.FC<HeaderProps> = ({
   onRefresh,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [secondsAgo, setSecondsAgo] = useState<number>(0);
+
+  // Update relative time every second
+  useEffect(() => {
+    if (!lastUpdated) return;
+
+    const updateRelative = () => {
+      const diff = Math.floor((Date.now() - lastUpdated.getTime()) / 1000);
+      setSecondsAgo(Math.max(0, diff));
+    };
+
+    updateRelative();
+    const timer = setInterval(updateRelative, 1000);
+    return () => clearInterval(timer);
+  }, [lastUpdated]);
 
   const handleCopyLink = async () => {
     try {
@@ -39,7 +54,13 @@ export const Header: React.FC<HeaderProps> = ({
         second: "2-digit",
         hour12: false,
       }).format(lastUpdated)
-    : "Never";
+    : null;
+
+  const timeDisplay = isRefreshing
+    ? "Refreshing live data…"
+    : lastUpdated
+    ? `Updated ${secondsAgo < 5 ? "just now" : `${secondsAgo}s ago`} (${formattedTime})`
+    : "Never updated";
 
   return (
     <header className="app-header">
@@ -61,9 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
             className={`live-dot ${isRefreshing ? "pulsing" : ""}`}
             aria-hidden="true"
           />
-          <span className="live-text">
-            {isRefreshing ? "Refreshing…" : `Last updated at ${formattedTime}`}
-          </span>
+          <span className="live-text">{timeDisplay}</span>
         </div>
 
         <button
@@ -83,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
           type="button"
           className={`btn ${copied ? "btn-success" : "btn-secondary"} btn-sm`}
           onClick={handleCopyLink}
-          aria-label="Copy link to current board view"
+          aria-label="Copy shareable link with current filters, range, and sort"
         >
           <span aria-hidden="true">{copied ? "✓" : "🔗"}</span>
           {copied ? "Link Copied!" : "Share Link"}
@@ -92,3 +111,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+
