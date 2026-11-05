@@ -8,8 +8,8 @@ export const OverdueBadge: React.FC = () => {
       title="Overdue: due date has passed in the site's local time"
       aria-label="Overdue"
     >
-      <AlertTriangle size={12} className="overdue-icon" aria-hidden="true" />
-      Overdue
+      <AlertTriangle size={13} className="overdue-icon" aria-hidden="true" />
+      <span>Overdue</span>
     </span>
   );
 };

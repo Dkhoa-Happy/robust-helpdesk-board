@@ -403,15 +403,26 @@ body {
   padding-top: 12px;
   margin-top: 4px;
   border-top: 1px dashed var(--color-border);
-  font-size: 0.825rem;
+  font-size: 0.875rem;
 }
 
 .summary-pill {
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
   border-radius: 9999px;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.25;
+}
+
+.summary-pill-icon {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .summary-total {
@@ -671,15 +682,16 @@ body {
 .overdue-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
+  gap: 5px;
+  padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 0.725rem;
+  font-size: 0.775rem;
   font-weight: 700;
   background-color: var(--alert-bg);
   color: var(--alert-text);
   border: 1px solid var(--alert-border);
   white-space: nowrap;
+  line-height: 1.25;
 }
 
 /* ==========================================================================
@@ -1074,48 +1086,109 @@ body {
    ========================================================================== */
 
 @media (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+
   .app-header {
-    padding: 12px 16px;
+    padding: 14px 16px;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .live-status-container {
+    font-size: 0.85rem;
+    padding: 6px 12px;
   }
 
   .main-content {
-    padding: 12px 16px 36px;
+    padding: 12px 14px 40px;
   }
 
   .header-actions {
     width: 100%;
     justify-content: space-between;
+    gap: 8px;
   }
 
+  /* Filter bar mobile */
   .filter-bar {
-    padding: 12px;
-    gap: 12px;
+    padding: 14px;
+    gap: 14px;
+    margin-top: 12px;
+    margin-bottom: 16px;
   }
 
   .filter-group {
     width: 100%;
+    gap: 8px;
+  }
+
+  .filter-label {
+    font-size: 0.85rem;
+  }
+
+  .preset-buttons {
+    gap: 6px;
+  }
+
+  .preset-btn {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    border-radius: var(--radius-md);
   }
 
   .date-inputs {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    gap: 10px;
   }
 
   .date-input-wrapper {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
-  .date-input {
-    width: 100%;
+  .date-sublabel {
+    font-size: 0.825rem;
+    font-weight: 500;
+  }
+
+  .shadcn-date-trigger {
+    height: 42px;
+    font-size: 0.95rem;
+  }
+
+  .input, .select {
+    font-size: 16px; /* Prevents iOS Safari auto-zoom */
+    min-height: 42px;
+    padding: 8px 12px;
   }
 
   .sort-controls {
     width: 100%;
+    gap: 8px;
   }
 
   .sort-controls .select {
     flex: 1;
+    height: 42px;
+  }
+
+  .sort-controls .btn {
+    height: 42px;
+    padding: 0 16px;
+    font-size: 0.875rem;
   }
 
   .reset-group {
@@ -1125,12 +1198,127 @@ body {
 
   .reset-group .btn {
     width: 100%;
+    height: 42px;
+    font-size: 0.875rem;
   }
 
+  /* Summary pills on mobile */
+  .filter-summary-row {
+    gap: 8px;
+    font-size: 0.875rem;
+  }
+
+  .summary-pill {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  /* Table on mobile: smooth touch horizontal scroll and legible typography */
+  .table-wrapper {
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-md);
+  }
+
+  .requests-table {
+    min-width: 820px;
+    font-size: 0.9rem;
+  }
+
+  .requests-table th {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+
+  .requests-table td {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .request-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .request-location {
+    font-size: 0.825rem;
+  }
+
+  .ref-badge {
+    font-size: 0.85rem;
+    padding: 3px 8px;
+  }
+
+  .site-name {
+    font-size: 0.925rem;
+  }
+
+  .site-tz-tag {
+    font-size: 0.8rem;
+    padding: 2px 8px;
+  }
+
+  .status-badge, .priority-badge {
+    font-size: 0.825rem;
+    padding: 4px 10px;
+  }
+
+  .overdue-badge {
+    font-size: 0.825rem;
+    padding: 4px 10px;
+  }
+
+  .due-date-text, .created-date-text {
+    font-size: 0.875rem;
+  }
+
+  /* Modal on mobile */
   .modal-dialog {
     max-height: 100vh;
     height: 100%;
     border-radius: 0;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+  }
+
+  .modal-body {
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .detail-label {
+    font-size: 0.775rem;
+  }
+
+  .detail-value {
+    font-size: 0.925rem;
+  }
+
+  .timeline-actor {
+    font-size: 0.925rem;
+  }
+
+  .timeline-time {
+    font-size: 0.825rem;
+  }
+
+  .timeline-note {
+    font-size: 0.875rem;
+  }
+
+  .timeline-due {
+    font-size: 0.85rem;
   }
 
   .modal-backdrop {
@@ -1269,20 +1457,31 @@ body {
   .pagination-container {
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    padding: 16px 0;
   }
 
   .pagination-info {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .page-size-selector {
+    justify-content: center;
+  }
+
+  .page-size-select {
+    height: 38px;
+    font-size: 0.9rem;
   }
 
   .shadcn-pagination-link {
-    height: 32px;
-    min-width: 32px;
-    padding: 0 6px;
-    font-size: 0.8rem;
+    height: 38px;
+    min-width: 38px;
+    padding: 0 10px;
+    font-size: 0.9rem;
   }
 
   .shadcn-pagination-prev span,

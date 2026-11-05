@@ -201,22 +201,32 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {/* Quick Summary Pill Badges */}
       <div className="filter-summary-row" aria-label="Requests breakdown">
         <span className="summary-pill summary-total">
-          <strong>{counts.total}</strong> matching requests
+          <span>
+            <strong>{counts.total}</strong> matching requests
+          </span>
         </span>
         {counts.overdue > 0 && (
           <span className="summary-pill summary-overdue" role="status">
-            <AlertTriangle size={14} aria-hidden="true" />
-            <strong>{counts.overdue}</strong> overdue
+            <AlertTriangle size={14} className="summary-pill-icon" aria-hidden="true" />
+            <span>
+              <strong>{counts.overdue}</strong> overdue
+            </span>
           </span>
         )}
         <span className="summary-pill summary-pending">
-          Pending: <strong>{counts.pending}</strong>
+          <span>
+            Pending: <strong>{counts.pending}</strong>
+          </span>
         </span>
         <span className="summary-pill summary-processing">
-          Processing: <strong>{counts.processing}</strong>
+          <span>
+            Processing: <strong>{counts.processing}</strong>
+          </span>
         </span>
         <span className="summary-pill summary-complete">
-          Complete: <strong>{counts.complete}</strong>
+          <span>
+            Complete: <strong>{counts.complete}</strong>
+          </span>
         </span>
       </div>
     </section>

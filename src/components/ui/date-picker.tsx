@@ -1,5 +1,9 @@
 import * as React from "react";
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface DatePickerProps {
   value: string; // YYYY-MM-DD
@@ -12,8 +16,18 @@ interface DatePickerProps {
 }
 
 const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const WEEK_DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -54,7 +68,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     if (!isOpen) return;
 
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -138,9 +155,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        aria-label={label ? `${label}: ${formattedDisplay}` : `Date: ${formattedDisplay}`}
+        aria-label={
+          label ? `${label}: ${formattedDisplay}` : `Date: ${formattedDisplay}`
+        }
       >
-        <CalendarIcon className="shadcn-date-icon" size={16} aria-hidden="true" />
+        <CalendarIcon
+          className="shadcn-date-icon"
+          size={16}
+          aria-hidden="true"
+        />
         <span className="shadcn-date-text">{formattedDisplay}</span>
       </button>
 
@@ -187,7 +210,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           <div className="shadcn-calendar-grid" role="grid">
             {/* Empty offset slots */}
             {Array.from({ length: startOffset }).map((_, i) => (
-              <span key={`empty-${i}`} className="shadcn-calendar-empty" aria-hidden="true" />
+              <span
+                key={`empty-${i}`}
+                className="shadcn-calendar-empty"
+                aria-hidden="true"
+              />
             ))}
 
             {/* Days of month */}
@@ -223,7 +250,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               className="shadcn-calendar-today-btn"
               onClick={() => {
                 const today = new Date();
-                const todayIso = formatIso(today.getFullYear(), today.getMonth(), today.getDate());
+                const todayIso = formatIso(
+                  today.getFullYear(),
+                  today.getMonth(),
+                  today.getDate(),
+                );
                 onChange(todayIso);
                 setIsOpen(false);
               }}
