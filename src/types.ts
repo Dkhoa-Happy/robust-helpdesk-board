@@ -67,4 +67,6 @@ export interface BoardFilters {
   status: Status | "all";
   sortField: SortField;
   sortDirection: SortDirection;
+  page: number;
+  pageSize: number;
 }

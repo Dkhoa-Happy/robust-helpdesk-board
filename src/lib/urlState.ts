@@ -9,6 +9,8 @@ export function getDefaultFilters(): BoardFilters {
     status: "all",
     sortField: "created_at",
     sortDirection: "desc",
+    page: 1,
+    pageSize: 20,
   };
 }
 
@@ -46,6 +48,12 @@ export function parseUrlFilters(search: string): {
   const rawDir = params.get("dir");
   const sortDirection: SortDirection = rawDir === "asc" ? "asc" : "desc";
 
+  const rawPage = params.get("page");
+  const page = rawPage && !isNaN(Number(rawPage)) && Number(rawPage) > 0 ? Number(rawPage) : 1;
+
+  const rawPageSize = params.get("pageSize");
+  const pageSize = rawPageSize && [10, 20, 50, 100].includes(Number(rawPageSize)) ? Number(rawPageSize) : 20;
+
   const rawReqId = params.get("request");
   const selectedRequestId =
     rawReqId && !isNaN(Number(rawReqId)) ? Number(rawReqId) : null;
@@ -58,6 +66,8 @@ export function parseUrlFilters(search: string): {
       status,
       sortField,
       sortDirection,
+      page,
+      pageSize,
     },
     selectedRequestId,
   };
@@ -78,6 +88,10 @@ export function serializeFiltersToQuery(
     params.set("sort", filters.sortField);
   if (filters.sortDirection !== defaults.sortDirection)
     params.set("dir", filters.sortDirection);
+  if (filters.page && filters.page > 1)
+    params.set("page", String(filters.page));
+  if (filters.pageSize && filters.pageSize !== 20)
+    params.set("pageSize", String(filters.pageSize));
   if (selectedRequestId !== null)
     params.set("request", String(selectedRequestId));
 

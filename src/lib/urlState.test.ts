@@ -15,12 +15,14 @@ describe("urlState", () => {
     expect(filters.status).toBe("all");
     expect(filters.sortField).toBe("created_at");
     expect(filters.sortDirection).toBe("desc");
+    expect(filters.page).toBe(1);
+    expect(filters.pageSize).toBe(20);
     expect(selectedRequestId).toBeNull();
   });
 
   it("parses query parameters correctly", () => {
     const qs =
-      "?from=2026-10-01&to=2026-10-15&site=12&status=pending&sort=due_on&dir=asc&request=65128";
+      "?from=2026-10-01&to=2026-10-15&site=12&status=pending&sort=due_on&dir=asc&page=3&pageSize=50&request=65128";
     const { filters, selectedRequestId } = parseUrlFilters(qs);
 
     expect(filters.from).toBe("2026-10-01");
@@ -29,6 +31,8 @@ describe("urlState", () => {
     expect(filters.status).toBe("pending");
     expect(filters.sortField).toBe("due_on");
     expect(filters.sortDirection).toBe("asc");
+    expect(filters.page).toBe(3);
+    expect(filters.pageSize).toBe(50);
     expect(selectedRequestId).toBe(65128);
   });
 
@@ -40,6 +44,8 @@ describe("urlState", () => {
       status: "processing" as const,
       sortField: "due_on" as const,
       sortDirection: "asc" as const,
+      page: 2,
+      pageSize: 50,
     };
     const query = serializeFiltersToQuery(filters, 41210);
     const parsed = parseUrlFilters(query);

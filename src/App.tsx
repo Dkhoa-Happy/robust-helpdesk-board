@@ -19,6 +19,7 @@ import { Header } from "./components/Header";
 import { FilterBar } from "./components/FilterBar";
 import { RequestsTable } from "./components/RequestsTable";
 import { RequestDetailModal } from "./components/RequestDetailModal";
+import { TablePagination } from "./components/TablePagination";
 
 export default function App() {
   // Read initial filters and selected request from URL query params
@@ -267,13 +268,42 @@ export default function App() {
     return sortRequests(filteredRequests, filters.sortField, filters.sortDirection);
   }, [filteredRequests, filters.sortField, filters.sortDirection]);
 
+  // Compute pagination
+  const totalPages = Math.max(1, Math.ceil(sortedRequests.length / filters.pageSize));
+  const currentPage = Math.min(Math.max(1, filters.page), totalPages);
+
+  const paginatedRequests = useMemo(() => {
+    const startIndex = (currentPage - 1) * filters.pageSize;
+    return sortedRequests.slice(startIndex, startIndex + filters.pageSize);
+  }, [sortedRequests, currentPage, filters.pageSize]);
+
   // Filter change handlers
   const handleFilterChange = (updated: Partial<BoardFilters>) => {
-    setFilters((prev) => ({ ...prev, ...updated }));
+    setFilters((prev) => ({
+      ...prev,
+      ...updated,
+      // Reset to page 1 if any filtering or sorting criteria change, unless page is explicitly given
+      page: updated.page ?? 1,
+    }));
   };
 
   const handleResetFilters = () => {
     setFilters(getDefaultFilters());
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      page: Math.min(Math.max(1, newPage), totalPages),
+    }));
+  };
+
+  const handlePageSizeChange = (newSize: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      pageSize: newSize,
+      page: 1,
+    }));
   };
 
   const handleSortChange = (field: SortField) => {
@@ -282,12 +312,14 @@ export default function App() {
         return {
           ...prev,
           sortDirection: prev.sortDirection === "asc" ? "desc" : "asc",
+          page: 1,
         };
       }
       return {
         ...prev,
         sortField: field,
         sortDirection: "desc", // Default to descending when switching sort field
+        page: 1,
       };
     });
   };
@@ -354,7 +386,7 @@ export default function App() {
 
         {/* Board Table */}
         <RequestsTable
-          requests={sortedRequests}
+          requests={paginatedRequests}
           sitesMap={sitesMap}
           staffMap={staffMap}
           sortField={filters.sortField}
@@ -363,6 +395,16 @@ export default function App() {
           onSelectRequest={handleSelectRequest}
           selectedRequestId={selectedRequestId}
           loading={loading}
+        />
+
+        {/* Shadcn UI Pagination */}
+        <TablePagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageSize={filters.pageSize}
+          totalItems={sortedRequests.length}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
         />
       </main>
 
